@@ -4,7 +4,7 @@ n1 = int(input('ingrese N1: '))
 n2 = int(input('ingrese N2: '))
 
 
-def ulMenoresFor(n1, n2):
+def mulMenoresFor(n1, n2):
     sumaMultiplos = '('
     contador = 0  # Iniciamos el contador en cero
     for i in range(n2):
@@ -15,11 +15,11 @@ def ulMenoresFor(n1, n2):
           'múltiplos de', n1, '->', sumaMultiplos[0: len(sumaMultiplos) - 2], ')')
 
 
-ulMenoresFor(n1, n2)
+mulMenoresFor(n1, n2)
 print('-----------------------------------------------------------------------')
 
 
-def ulMenoresWhile(n1, n2):
+def mulMenoresWhile(n1, n2):
     sumaMultiplos = '('
     contador = 0  # Iniciamos el contador en cero
     contadorMultiplos = 0  # Iniciamos el contador en cero
@@ -32,4 +32,4 @@ def ulMenoresWhile(n1, n2):
           'múltiplos de', n1, '->', sumaMultiplos[0: len(sumaMultiplos) - 2], ')')
 
 
-ulMenoresWhile(n1, n2)
+mulMenoresWhile(n1, n2)
