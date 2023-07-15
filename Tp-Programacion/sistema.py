@@ -16,6 +16,8 @@ def main():
     print(titulo)
     print("-" * len(titulo))
     while True:
+        email=""
+        clave=""
         # VERIFICAR SI SE PRESIONÓ LA TECLA "ESC"
         print("Presione cualquier tecla para continuar o Esc para finalizar...")
         tecla = getch.getch()
@@ -36,5 +38,6 @@ def main():
         else:
                 print("Credenciales no válidas. Reintentar")
 
+# LLAMA LA FUNCION MAIN
 if __name__ == "__main__":
     main()
