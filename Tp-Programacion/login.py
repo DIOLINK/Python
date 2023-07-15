@@ -4,14 +4,14 @@ from hashlib import sha256
 
 # COMPARA LA LISTA CON LO INGRESADO.
 def comparar_lista(lista_fila, _email, _clave):
-    isEmail = False
-    isPasswd = False
+    is_email = False
+    is_passwd = False
     for elemento in lista_fila:
         if elemento == _email:
-            isEmail=True
-        elif isEmail and elemento == sha256(_clave.encode('utf-8')).hexdigest():
-            isPasswd=isEmail
-    return isEmail and isPasswd
+            is_email=True
+        elif is_email and elemento == sha256(_clave.encode('utf-8')).hexdigest():
+            is_passwd=is_email
+    return (is_email and is_passwd)
 
 # ESTA FUNCION RECIBE COMO PARAMETROS EL ARCHIVO A PROCESAR, EMAIL Y CLAVE A VALIDAR
 # CUANDO ENCUENTRA EL USUARIO QUE COINCIDE CON LA CLAVE Y EL EMAIL. ENTONCES DEBE
