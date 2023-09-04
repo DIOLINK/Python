@@ -2,16 +2,15 @@ import traceback
 from datetime import datetime
 from hashlib import sha256
 
-import getch
-import matplotlib.pyplot as plt
-import pwinput
-from geopy import distance
-from geopy.geocoders import Nominatim
-
 import admin
 import fileCsv
 import filePdf
+import getch
+import matplotlib.pyplot as plt
+import pwinput
 import sistema
+from geopy import distance
+from geopy.geocoders import Nominatim
 
 titulo = "MENU DEL SOCIO CONDUCTOR"
 opcion = 0
@@ -186,10 +185,7 @@ def cargar_viaje():
                         if (fileCsv.mkdir_dir('.//data/')):
                             fileCsv.save_archivo_csv(
                                 ".//data//viajes.csv", list_viajes)
-<<<<<<< HEAD
-=======
                             volver_menu()
->>>>>>> bd3a686b09ba0b8c974688d994b7d14874fa7adc
                     elif (confirm == 'n'):
                         print('No se guardaron los datos.')
                         volver_menu()
