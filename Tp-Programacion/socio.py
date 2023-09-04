@@ -145,8 +145,6 @@ def consultar_ganancia():
             './/data//viajes.csv', GANANCIA_SOCIOS)
         generar_grafico(respuesta[0], respuesta[1])
 
-
-consultar_ganancia()
 # CALCULA COSTO DE LAS DISTANCIAS
 
 
@@ -188,6 +186,10 @@ def cargar_viaje():
                         if (fileCsv.mkdir_dir('.//data/')):
                             fileCsv.save_archivo_csv(
                                 ".//data//viajes.csv", list_viajes)
+<<<<<<< HEAD
+=======
+                            volver_menu()
+>>>>>>> bd3a686b09ba0b8c974688d994b7d14874fa7adc
                     elif (confirm == 'n'):
                         print('No se guardaron los datos.')
                         volver_menu()
