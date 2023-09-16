@@ -1,0 +1,33 @@
+Turismo por el mundo mágico
+
+JK Rowling le encarga a los alumnos de sistemas de primer año del Pio IX elaborar un sistema para la administración de atracciones de su nuevo parque.
+
+Dicho sistema se encargará de ofrecer paquetes turísticos a los usuarios teniendo en cuenta sus preferencias, presupuesto y tiempo disponible, en ese orden.
+
+Las condiciones son: 
+
+- Utilizar POO en python.
+- No deben ofertarse promos o atracciones que el usuario no pueda pagar o no tenga tiempo de disfrutar.
+- No ofertar atracciones que hayan sido comparadas anteriormente en alguna promo.
+- Repetir el proceso hasta que no quede tiempo ni presupuesto.
+- Guardar un resumen del itinerario de cada usuario con el resultado de su compra, el dinero gastado y el estimado de tiempo a ser gastado en el parque.
+- Repetir lo mismo para todos los usarios.
+- Diseñar interacción del sistema todo por consola.
+- Leer los archivos de entrada para usuarios, atracciones y promociones.
+- Generar archivos resumen para cada usuario con la información final del mismo.
+
+Adicionales:
+
+- Se podrá utilizar alguna otra forma de interacción.
+
+Calificables:
+
+- Diagrama de relaciones de clases del sistema.
+- Software del sistema funcionando según enunciado.
+- Sustentación del mismo.
+
+Formato Usuarios: Nombre del usuario,categoria preferida,presupuesto,tiempo disponible
+Formato Atracción: Nombre de la atraccion,Costo de la visita,Tiempo de duracion,Cupo de atracción,Tipo de atracción
+Formato Promoción Porcentual: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,valor Porcentual de descuento
+Formato Promoción Absoluta: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,valor Absoluto de descuento
+Formato Promoción AxB: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,Atracción gratuita

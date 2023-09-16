@@ -1,0 +1,14 @@
+Hogwarts,10,2,6,AVENTURA
+Gringots,5,2,25,PAISAJE
+Callejon diagon,3,6.5,150,DEGUSTACION
+Caldero Chorreante,25,2,15,AVENTURA
+Valle de Godric,5,2,15,PAISAJE
+Ollivanders,35,1,30,DEGUSTACION
+Hogsmeade,12,3,32,PAISAJE
+Anden nueve y tres cuartos,3,4,12,AVENTURA
+Azkaban,15,4,6,AVENTURA
+Ministerio de Magia,28,5,25,DEGUSTACION
+Emporio de la Lechuza,30,9,15,PAISAJE
+Privet Drive No 4,12,4.5,10,AVENTURA
+Mansion Malfoy,8,3,15,DEGUSTACION
+Bosque Prohibido,17,8.5,12,PAISAJE
