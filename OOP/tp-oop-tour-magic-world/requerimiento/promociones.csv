@@ -1,0 +1,12 @@
+Por,PACK AVENTURA,AVENTURA,Anden nueve y tres cuartos,Caldero Chorreante,NULL,20
+Abs,PACK DEGUSTACION,DEGUSTACION,Ollivanders,Callejon diagon,NULL,36
+AxB,PACK TRIPLE PAISAJE,PAISAJE,Gringots,Valle de Godric,Hogsmeade,100
+Por,PACK DOBLE AVENTURA,AVENTURA,Hogwarts,Caldero Chorreante,NULL,10
+Abs,PACK DOBLE PAISAJE,PAISAJE,Hogsmeade,Gringots,NULL,15
+AxB,PACK TRIPLE AVENTURA,AVENTURA,Hogwarts,Caldero Chorreante,Anden nueve y tres cuartos,100
+Por,PACK SIMPLE DEGUSTACION,DEGUSTACION,Callejon diagon,NULL,NULL,15
+Abs,PACK SIMPLE AVENTURA,AVENTURA,Caldero Chorreante,NULL,NULL,20
+AxB,PACK 2X1 DE PAISAJE,PAISAJE,Hogsmeade,Valle de Godric,NULL,100
+Por,PACK AVENTURERO,AVENTURA,Azkaban,Privet Drive No 4,NULL,10
+Abs,PACK LO MEJOR EN PAISAJE,PAISAJE,Emporio de la Lechuza,Bosque Prohibido,NULL,43
+AxB,PACK 2X1 DEGUSTACION,DEGUSTACION,Ministerio de Magia,Mansion Malfoy,NULL,100

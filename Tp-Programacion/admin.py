@@ -2,11 +2,10 @@
 from datetime import datetime
 from hashlib import sha256
 
-import getch
-import matplotlib.pyplot as plt_admin
-
 import fileCsv
 import filePdf
+import getch
+import matplotlib.pyplot as plt_admin
 import sistema
 
 titulo = "MENU DEL ADMINISTRADOR"

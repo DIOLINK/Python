@@ -6,3 +6,6 @@ Tp-Programacion/__pycache__/sistema.cpython-310.pyc
 Tp-Programacion/.vscode/settings.json
 Tp-Programacion/__pycache__/*.pyc
 .DS_Store
+OOP/tp-oop-tour-magic-world/data.json
+.gitignore
+OOP/tp-oop-tour-magic-world/data2.json

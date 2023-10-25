@@ -6,7 +6,7 @@ Dicho sistema se encargará de ofrecer paquetes turísticos a los usuarios tenie
 
 Las condiciones son: 
 
-- Utilizar POO en python.
+- Utilizar POO en Python.
 - No deben ofertarse promos o atracciones que el usuario no pueda pagar o no tenga tiempo de disfrutar.
 - No ofertar atracciones que hayan sido comparadas anteriormente en alguna promo.
 - Repetir el proceso hasta que no quede tiempo ni presupuesto.
@@ -27,7 +27,16 @@ Calificables:
 - Sustentación del mismo.
 
 Formato Usuarios: Nombre del usuario,categoria preferida,presupuesto,tiempo disponible
-Formato Atracción: Nombre de la atraccion,Costo de la visita,Tiempo de duracion,Cupo de atracción,Tipo de atracción
+
+Formato Atracción: Nombre de la atraccion, Costo de la visita, Tiempo de duracion,Cupo de atracción,Tipo de atracción
+
 Formato Promoción Porcentual: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,valor Porcentual de descuento
+
 Formato Promoción Absoluta: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,valor Absoluto de descuento
+
 Formato Promoción AxB: Tipo,Nombre de la Promo,Categoria,atraccion 1;atraccion 2;atraccion N,Atracción gratuita
+
+
+SELECT promociones.nombre,SUM(atracciones.costo) as costo_total, SUM(atracciones.durasion) as duracion_total FROM promociones INNER JOIN atracciones on atracciones.nombre = promociones.atraccion_1 or atracciones.nombre = promociones.atraccion_2 or atracciones.nombre = promociones.atraccion_n GROUP BY promociones.nombre
+
+SELECT promociones.nombre,promociones.tipo,promociones.atraccion_1, promociones.atraccion_2, promociones.atraccion_n, atracciones.durasion FROM promociones INNER JOIN atracciones on atracciones.nombre = promociones.atraccion_1 WHERE promociones.nombre = 'PACK DOBLE PAISAJE' UNION SELECT promociones.nombre,promociones.tipo,promociones.atraccion_1, promociones.atraccion_2, promociones.atraccion_n, atracciones.durasion FROM promociones INNER JOIN atracciones on atracciones.nombre = promociones.atraccion_2 WHERE promociones.nombre = 'PACK DOBLE PAISAJE' UNION SELECT promociones.nombre,promociones.tipo,promociones.atraccion_1, promociones.atraccion_2,promociones.atraccion_n, atracciones.durasion FROM promociones INNER JOIN atracciones on atracciones.nombre = promociones.atraccion_n WHERE promociones.nombre = 'PACK DOBLE PAISAJE' LIMIT 0,100
