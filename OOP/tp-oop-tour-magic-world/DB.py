@@ -89,6 +89,18 @@ class DataBase:
         finally:
             self.desconectar()
 
+    def upDateUserBudgetTime(self, userId, userUpdate):
+        try:
+            self.conectar()
+            query_up_date = "UPDATE usuarios SET presupuesto= %s,tiempo_disponible= %s WHERE id = %s"
+            self.cursor.execute(query_up_date, (userUpdate['presupuesto'], userUpdate['tiempoDisponible'], userId))
+            self.connection.commit()
+            print(f'OK Susses')
+        except pymysql.Error as error:
+            # Capturar y manejar el error
+            print("Error de PyMySQL:", error)
+        finally:
+            self.desconectar()
     def chagesIsDeleteAuthUser(self, isDelete, email, password):
         try:
             self.conectar()

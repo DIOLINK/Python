@@ -24,11 +24,12 @@ class SystemTMM(CommonClass):
         self.TITULO_USER = "MENÚ DE USUARIO"
         self.TITULO_USER_ADMIN = "MENÚ DE USUARIO ADMIN"
         self.TITULO_REGISTER_USER = "MENÚ DE REGISTRO DE USUARIO"
+        self.TITULO_REFILL_USER = "RECARGA DE DINERO Y DISPONIVILIDAD DE USUARIO"
         self.TITULO_PROMOTION = "MENÚ DE PROMOCIONES"
         self.TITULO_ATTRACTION = "MENÚ DE ATRACCIONES"
         self.TITULO_USER_PROMOTION_ATTRACTION = "MENÚ SUGERENCIAS DE PROMOCIONES Y ATRACCIONES"
         self.TITULO_USER_PROMOTION_ATTRACTION_END = "TUS PROMOCIONES O ATRACCIONES"
-        self.CATEGORIAS = ["AVENTURA", "DEGUSTACION", "PAISAJES"]
+        self.CATEGORIAS = ["AVENTURA", "DEGUSTACION", "PAISAJE"]
         self.MESSAGE_INITIAL = "Presione cualquier tecla para continuar o Esc para finalizar"
         self.promotion = Promotion()
         self.auth = Auth()
@@ -36,7 +37,8 @@ class SystemTMM(CommonClass):
         self.attraction = Attraction()
         self.user_time_disponivility = 0
         self.user_budget_current = 0
-        self.MESSAGE_USER_PROMOTION_ATTRACTION = "Cuentas con un presupuesto: ${} y una disponibilidad: {}hs "
+        self.MESSAGE_USER_PROMOTION_ATTRACTION = "Cuentas con un presupuesto: ${} y una disponibilidad: {}hs"
+        self.MESSAGE_USER_PROMOTION_ATTRACTION_EMTY = "Pero no es suficiente para disfrutar de nuestras astracciones, deberas disponer de mayor presupuesto y disponibilidad. \n Siendo redireccionado para cargar mas dinero y tiempo."
         self.INITIAL_OPCION = ["INGRESAR", "REGISTRASE", "SALIR"]
         self.OPCIONES_USER = ["MODIFICAR MIS DATOS PERSONALES", "CAMBIAR PASSWORD",
                               "MIS PROMOCIONES O ATRACCIONES", "SALIR AL INICIO"]
@@ -54,6 +56,30 @@ class SystemTMM(CommonClass):
         self.attractions_user_category = None
         self.promotions_user_category = None
         self.userSelected = []
+        self.filter = []
+
+    def teclaEsc(self):
+        print(self.MESSAGE_INITIAL)
+        tecla = getch.getch()
+        if tecla.lower() == chr(27):
+            self.exitSystem()
+
+    def menUsuario(self):
+        self.title(self.TITULO_USER)
+        self.options(self.OPCIONES_USER)
+        opcion = int(input(self.INPUT % len(self.OPCIONES_USER)))
+        if (opcion < 0) or (opcion > len(self.OPCIONES_USER)):
+            print(self.ERROR_OPTION_MESSAGE % opcion)
+        else:
+            match opcion:
+                case 1: self.setUser()
+                case 2: self.changePass()
+                case 3: self.promotionUser()
+                case 4: self.menuInitial()
+
+    def title(self, title):
+        print(title)
+        print("-" * len(title))
 
     def options(self, list):
         for index, option in enumerate(list):
@@ -71,7 +97,7 @@ class SystemTMM(CommonClass):
                 match opcion:
                     case 1: categoria = 'AVENTURA'
                     case 2: categoria = 'DEGUSTACION'
-                    case 3: categoria = 'PAISAJES'
+                    case 3: categoria = 'PAISAJE'
         except ValueError:
             print(self.ERROR_MESSAGE)
         try:
@@ -139,10 +165,40 @@ class SystemTMM(CommonClass):
     def sort_by_cost_descending(self, element):
         return element['total_cost']
 
+    def fillBudgetTime(self):
+        self.title(self.TITULO_REFILL_USER)
+        try:
+            presupuesto = int(input(self.BUDGET))
+            if (presupuesto < 0):
+                print(self.ERROR_MESSAGE_USER)
+        except ValueError:
+            print(self.ERROR_MESSAGE)
+
+        try:
+            tiempoDisponible = int(
+                input(self.AVAILABLE_TIME))
+            if (tiempoDisponible < 0):
+                print(self.ERROR_MESSAGE_USER)
+        except ValueError:
+            print(self.ERROR_MESSAGE)
+
+        self.user.userRefill(self.auth.authorize['user_id'], {
+                             'presupuesto': presupuesto, 'tiempoDisponible': tiempoDisponible})
+        self.menUsuario()
+
     def showSelected(self):
-        self.title(self.TITULO_USER_PROMOTION_ATTRACTION_END)
-        for index, option in enumerate(sorted(self.userSelected, key=self.sort_by_cost_descending, reverse=True)):
-            print(f'{index + 1}. {option["name"]}')
+        print()
+        print(self.MESSAGE_USER_PROMOTION_ATTRACTION.format(
+            self.user_budget_current, self.user_time_disponivility))
+        print()
+        if not self.userSelected:
+            print(self.MESSAGE_USER_PROMOTION_ATTRACTION_EMTY)
+            self.fillBudgetTime()
+        else:
+            self.title(self.TITULO_USER_PROMOTION_ATTRACTION_END)
+            for index, option in enumerate(sorted(self.userSelected, key=self.sort_by_cost_descending, reverse=True)):
+                print(f'{index + 1}. {option["name"]}')
+            self.menUsuario()
 
     def find_uncompared_attractions(self):
         selected_attractions = set()
@@ -152,32 +208,32 @@ class SystemTMM(CommonClass):
             item for item in self.listCosts if "attractions_compared" not in item or item["name"] not in selected_attractions]
         filtered = [
             item for item in filtered_data if "attractions_compared" in item and item["name"] not in selected_attractions]
-
+        newFilter = []
         for item in filtered:
-            if item["total_duration"] > int(self.user_time_disponivility):
-                filtered.remove(item)
-            else:
-                if not bool(filtered):
-                    self.showSelected()
-                else:
-                    return filtered
+            if item["total_duration"] <= int(self.user_time_disponivility) and item["total_cost"] <= self.user_budget_current:
+                newFilter.append(item)
+
+        if not newFilter:
+            self.showSelected()
+        else:
+            self.filter = newFilter
 
     def menuPromotionsAttraction(self):
-        isValidated = False
+        self.find_uncompared_attractions()
         print()
         print(self.MESSAGE_USER_PROMOTION_ATTRACTION.format(
             self.user_budget_current, self.user_time_disponivility))
         print()
         self.title(self.TITULO_USER_PROMOTION_ATTRACTION)
         print(f'0. Exit')
-        for index, option in enumerate(sorted(self.find_uncompared_attractions(), key=self.sort_by_cost_descending, reverse=True)):
+        for index, option in enumerate(sorted(self.filter, key=self.sort_by_cost_descending, reverse=True)):
             print(f'{index + 1}. {option["name"]}')
         opcion = int(
-            input(f"Select an option (0-{len(self.find_uncompared_attractions())+1}): "))
+            input(f"Select an option (0-{len(self.filter)+1}): "))
         if opcion == 0:
             self.menUsuario()
-        if 1 <= opcion <= len(self.find_uncompared_attractions()):
-            selected_option = self.find_uncompared_attractions()[
+        if 1 <= opcion <= len(self.filter):
+            selected_option = self.filter[
                 opcion - 1]
             self.userSelected.append(selected_option)
             self.listCosts.remove(selected_option)
@@ -192,6 +248,7 @@ class SystemTMM(CommonClass):
             print(f"Invalid option: {opcion}")
 
     def promotionUser(self):
+        print('calculando prmo...')
         self.listCosts = []
         user_response = self.user.getUserById(self.auth.authorize['user_id'])
         self.user_time_disponivility = round(float(user_response[3]), 2)
@@ -216,25 +273,16 @@ class SystemTMM(CommonClass):
                     totalDuration.append(tuplaAttraction[3])
             if (self.user_time_disponivility >= sum(totalDuration) and self.user_budget_current >= self.promotion.discount(sum(totalCost), tuplaPromotion[1], tuplaPromotion[7])):
                 self.listCosts.append(
-                    {'id_promotion': tuplaPromotion[0], 'name': tuplaPromotion[2], 'total_cost_discount': self.promotion.discount(sum(totalCost), tuplaPromotion[1], tuplaPromotion[7]), "total_cost": sum(totalCost), 'total_duration': sum(totalDuration), "attractions_compared": attractionsCompared})
+                    {'id_promotion': tuplaPromotion[0], 'name': tuplaPromotion[2], 'total_cost': self.promotion.discount(sum(totalCost), tuplaPromotion[1], tuplaPromotion[7]), 'total_duration': sum(totalDuration), "attractions_compared": attractionsCompared})
         for tuplaAttraction in self.attractions_user_category:
             if (self.user_time_disponivility >= tuplaAttraction[3] and self.user_budget_current >= tuplaAttraction[2]):
                 self.listCosts.append(
                     {'id_attraction': tuplaAttraction[0], 'name': tuplaAttraction[1], 'total_cost_discount': 'none', "total_cost": tuplaAttraction[2], 'total_duration': tuplaAttraction[3], "attractions_compared": [tuplaAttraction[1]]})
-        self.menuPromotionsAttraction()
-
-    def menUsuario(self):
-        self.title(self.TITULO_USER)
-        self.options(self.OPCIONES_USER)
-        opcion = int(input(self.INPUT % len(self.OPCIONES_USER)))
-        if (opcion < 0) or (opcion > len(self.OPCIONES_USER)):
-            print(self.ERROR_OPTION_MESSAGE % opcion)
+        print(self.listCosts)
+        if not self.listCosts:
+            self.showSelected()
         else:
-            match opcion:
-                case 1: self.setUser()
-                case 2: self.changePass()
-                case 3: self.promotionUser()
-                case 4: self.menuInitial()
+            self.menuPromotionsAttraction()
 
     def menuAdmin(self):
         self.title(self.TITULO_USER_ADMIN)
@@ -256,17 +304,13 @@ class SystemTMM(CommonClass):
                 case 10: print("Seleccione 4")
                 case 11: self.menuInitial()
 
-    def title(self, title):
-        print(title)
-        print("-" * len(title))
-
     def login(self):
         self.title(self.TITULO_LOGIN)
         # email = input(self.EMAIL).lower()
         # password = pwinput.pwinput(prompt=self.PASSWORD)
         print()
         # self.auth.isAuthorized(email, password)
-        self.auth.isAuthorized('roger@gmail.com', '98765')
+        self.auth.isAuthorized('ron@ron.com', '98765')
         if self.auth.authorize['isAuth'] and self.auth.authorize['isLogin']:
             self.menuAdmin()
         elif self.auth.authorize['isLogin']:
@@ -276,10 +320,7 @@ class SystemTMM(CommonClass):
 
     def main(self):
         while self.continuar:
-            print(self.MESSAGE_INITIAL)
-            tecla = getch.getch()
-            if tecla.lower() == chr(27):
-                self.exitSystem()
+            self.teclaEsc()
             self.menuInitial()
 
     def exitSystem(self):
@@ -290,5 +331,3 @@ class SystemTMM(CommonClass):
 if __name__ == "__main__":
     programa = SystemTMM()
     programa.main()
-
-password123456

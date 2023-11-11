@@ -42,6 +42,9 @@ class User(CommonClass):
 
         self.connectionDB.upDateUser(user_id, self.user)
 
+    def userRefill(self, user_id, user):
+        self.connectionDB.upDateUserBudgetTime(user_id, user)
+
     def __repr__(self):
         return f'{self.user}'
 
