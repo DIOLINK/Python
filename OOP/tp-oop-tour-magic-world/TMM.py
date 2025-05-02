@@ -229,7 +229,7 @@ class SystemTMM(CommonClass):
         for index, option in enumerate(sorted(self.filter, key=self.sort_by_cost_descending, reverse=True)):
             print(f'{index + 1}. {option["name"]}')
         opcion = int(
-            input(f"Select an option (0-{len(self.filter)+1}): "))
+            input(f"Select an option (0-{len(self.filter)}): "))
         if opcion == 0:
             self.menUsuario()
         if 1 <= opcion <= len(self.filter):
@@ -248,7 +248,7 @@ class SystemTMM(CommonClass):
             print(f"Invalid option: {opcion}")
 
     def promotionUser(self):
-        print('calculando prmo...')
+        print('calculando promo...')
         self.listCosts = []
         user_response = self.user.getUserById(self.auth.authorize['user_id'])
         self.user_time_disponivility = round(float(user_response[3]), 2)
@@ -306,11 +306,11 @@ class SystemTMM(CommonClass):
 
     def login(self):
         self.title(self.TITULO_LOGIN)
-        # email = input(self.EMAIL).lower()
-        # password = pwinput.pwinput(prompt=self.PASSWORD)
+        email = input(self.EMAIL).lower()
+        password = pwinput.pwinput(prompt=self.PASSWORD)
         print()
-        # self.auth.isAuthorized(email, password)
-        self.auth.isAuthorized('ron@ron.com', '98765')
+        self.auth.isAuthorized(email, password)
+        # self.auth.isAuthorized('ron@ron.com', '98765')
         if self.auth.authorize['isAuth'] and self.auth.authorize['isLogin']:
             self.menuAdmin()
         elif self.auth.authorize['isLogin']:

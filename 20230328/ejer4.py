@@ -6,7 +6,7 @@ KM_MILLAS = 0.621371
 KM_PULGADAS = 39370.1
 KM_METROS = 1000
 
-kilometros = int(input('Ingresar la cantidad en kilometros: '))
+kilometros = float(input('Ingresar la cantidad en kilometros: '))
 
 yardas = kilometros * KM_YARDAS
 millas = kilometros * KM_MILLAS
