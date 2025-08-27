@@ -14,15 +14,14 @@ class AgeUser:
     def main():
         print(AgeUser.MESSAGES[3])
         age = input(AgeUser.MESSAGES[0])
-
+        res = AgeUser.MESSAGES[2]
         try:
             age = int(age)
             if age <= AgeUser.ZERO or age >= AgeUser.MAX_AGE:
                 print(AgeUser.MESSAGES[4])
             elif AgeUser.OLD_AGE <= age:
-                print(f"Eres {AgeUser.MESSAGES[1]} de edad!")
-            else:
-                print(f"Eres {AgeUser.MESSAGES[2]} de edad!")
+                res = AgeUser.MESSAGES[1]
+            print(f"Eres {res} de edad!")
         except ValueError:
             print(AgeUser.MESSAGES[4])
 
